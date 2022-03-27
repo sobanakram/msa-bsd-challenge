@@ -1,0 +1,31 @@
+<div id="searchPage">
+  <% if params[:query].nil? %>
+    <h3>Write something to search.</h3>
+  <% else %>
+    <% if @result[:message] %>
+      <h3><%= @error_message %></h3>
+    <% elsif @result[:repos].empty? %>
+      <h3>No repository found against your query.</h3>
+    <% else %>
+      <ul class="list-group">
+        <% @result[:repos].each do |repo| %>
+          <li class="repo-item list-group-item">
+            <div class="name">
+              <strong><%= repo['name'] %></strong>
+              <div>Stars: <%= repo['stargazers_count'] %></div>
+            </div>
+            <div class="description">
+              <%= repo['description'] %>
+            </div>
+            <div>
+              Owner:
+              <%= image_tag(repo['owner']['avatar_url'], width: 25) %>
+              <%= link_to repo['owner']['login'], repo['owner']['html_url'], class: 'link' %>
+            </div>
+            <a class="link" href="<%= repo['html_url'] %>" target="_blank">Link to Repo</a>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
